@@ -1,0 +1,72 @@
+# Data Governance Framework Configuration
+
+snowflake:
+  account: "your_account"
+  user: "your_username"
+  password: "your_password"  # Or use environment variable
+  warehouse: "COMPUTE_WH"
+  database: "GOVERNANCE_DB"
+  schema: "METADATA"
+  role: "DATA_ENGINEER"
+
+metadata:
+  # Tables to track metadata for
+  tracked_databases:
+    - "PROD_DB"
+    - "ANALYTICS_DB"
+  
+  # Metadata to capture
+  capture:
+    - "table_info"
+    - "column_info"
+    - "statistics"
+    - "constraints"
+
+lineage:
+  # Track lineage through query history
+  query_history_days: 30
+  
+  # Types of lineage to capture
+  lineage_types:
+    - "table_to_table"
+    - "view_dependencies"
+    - "stored_procedure"
+
+data_quality:
+  # DQ check configurations
+  rules:
+    completeness:
+      enabled: true
+      threshold: 0.95
+    
+    uniqueness:
+      enabled: true
+      
+    validity:
+      enabled: true
+      
+    consistency:
+      enabled: true
+      
+    timeliness:
+      enabled: true
+      max_age_hours: 24
+  
+  # Alert thresholds
+  alerts:
+    critical_threshold: 0.90
+    warning_threshold: 0.95
+
+output:
+  # Where to store governance data
+  metadata_table: "METADATA_CATALOG"
+  lineage_table: "LINEAGE_GRAPH"
+  dq_results_table: "DQ_VALIDATION_RESULTS"
+  
+  # Export formats
+  export_json: true
+  export_csv: false
+  
+logging:
+  level: "INFO"
+  file: "logs/governance.log"
